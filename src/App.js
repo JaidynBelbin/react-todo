@@ -1,23 +1,56 @@
-import logo from './logo.svg';
 import './App.css';
+import React, {useState} from 'react';
+import TodoList from './components/todo-list';
 
-function App() {
+// Needs to be an array of objects
+
+// Fields: 
+// -> id: int (for sorting by completed)
+// -> description: string
+// -> completed: bool
+// 
+
+const App = () => {
+
+  // Stateful todo
+  const [todoValue, setTodoValue] = useState('');
+  const [todos, setTodos] = useState([]);
+
+  const addTodo = () => {
+    if (todoValue) {
+      setTodos([{title: todoValue, completed: false} , ...todos]);
+    }
+    setTodoValue('');
+  }
+
+  const handleChange = event => {
+    setTodoValue(event.target.value);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main-container">
+
+        <div className="todo-div">
+          
+          <TodoList list={todos} />
+          
+        </div>
+
+      <div className="input-div">
+        
+          <label>
+            Add todo description:
+          </label>
+          <input 
+            type="text"
+            value={todoValue}
+            name="todo-description"
+            onChange={handleChange}/>
+         
+
+          <button name="add-todo" onClick={addTodo} type="submit">Add todo</button>
+        
+      </div>
     </div>
   );
 }
